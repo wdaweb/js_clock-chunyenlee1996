@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #aaa;
+        }
+
+        #main {
+            width: calc(3124px / 3);
+            height: calc(2084px /3);
+            margin: auto;
+            position: relative;
+            left: 30%;
+            transform: translateX(-50%);
+            background-image: url('./mountin.png');
+            background-size: contain;
+            background-color: #f9f2e9;
+            transition: 1s;
+
+
+        }
+
+        #moutain {
+            width: calc(3124px / 3);
+            display: block;
+            margin: auto;
+        }
+
+        @keyframes clock {
+            0% {
+                top: 10px
+            }
+
+            50% {
+                top: 200px
+            }
+
+            100% {
+                top: 10px
+            }
+        }
+
+        .ani {
+            animation-name: clock;
+            animation-duration: 4s;
+        }
+
+        #clock {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: rgba(254, 157, 0, 0.683);
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 153, 0, 0.695);
+
+        }
+
+        #hour {
+            width: 30%;
+            height: 10px;
+            border-radius: 30%;
+            background-color: #13be1991;
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            transform-origin: right center;
+        }
+
+        #minute {
+            width: 40%;
+            height: 10px;
+            border-radius: 30%;
+            background-color: #13be1991;
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform-origin: right center;
+        }
+
+        #second {
+            width: 40%;
+            height: 5px;
+            border-radius: 30%;
+            background-color: #ffffffe3;
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform-origin: right center;
+
+        }
+
+        #buttonMain {
+            width: 75px;
+            height: 25px;
+            background-color: #999;
+            border-radius: 12.5px;
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+        }
+
+        #buttonMove {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #ccc;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="clock">
+            <div id="hour"></div>
+            <div id="minute"></div>
+            <div id="second"></div>
+        </div>
+        <div id="buttonMain">
+            <div id="buttonMove"></div>
+        </div>
+    </div>
+    <div id="star"></div>
+    <script>
+        const hour = document.getElementById('hour')
+        const minute = document.getElementById('minute')
+        const second = document.getElementById('second')
+        const main = document.getElementById('main')
+        const clock = document.getElementById('clock')
+        // 按鈕
+        const buttonMain = document.getElementById('buttonMain')
+        const buttonMove = document.getElementById('buttonMove')
+        let btn = false
+        //時間function
+        setInterval(function () {
+            const dat = new Date()
+            hour.style.transform = `rotate(${dat.getHours() * 30 + 90}deg)`
+            minute.style.transform = `rotate(${dat.getMinutes() * 6 + 90}deg)`
+            second.style.transform = `rotate(${dat.getSeconds() * 6 + 90}deg)`
+            const newHours = dat.getHours()
+            const newMinutes = dat.getMinutes()
+            const newSecond = dat.getSeconds()
+            console.log(newHours)
+            //黑夜轉白天的剎那
+            if (newHours == 5 && newMinutes == 59 && newSecond == 58) {
+                clock.style.animationName = 'clock'
+                clock.style.animationDuration = '4s'
+                setTimeout(() => {
+                    clock.classList.remove('ani')
+                }, 4000);
+            }
+            // 黑白天效果
+            if (17 < newHours && newHours < 25 || 0 <= newHours && newHours < 6) {
+                main.style.backgroundColor = `black`
+                main.style.backgroundImage = `url('./mountainAndStar.png')`
+                clock.style.boxShadow = ` 0px 0px 15px rgba(255, 255, 255, 0.695)`
+                clock.style.backgroundColor = `rgba(255, 255, 79, 0.493)`
+                hour.style.backgroundColor = `#06445d91`
+                minute.style.backgroundColor = `#06445d91`
+                second.style.backgroundColor = `#ffffff60`
+            }
+        }, 1000)
+        buttonMain.addEventListener('click', function () {
+            clock.classList.add('ani')
+            if (!btn) {
+                buttonMove.style.right = '0'
+                buttonMove.style.left = ''
+                main.style.backgroundColor = `black`
+                main.style.backgroundImage = `url('./mountainAndStar.png')`
+                clock.style.boxShadow = ` 0px 0px 15px rgba(255, 255, 255, 0.695)`
+                clock.style.backgroundColor = `rgba(255, 255, 79, 0.493)`
+                hour.style.backgroundColor = `#06445d91`
+                minute.style.backgroundColor = `#06445d91`
+                second.style.backgroundColor = `#ffffff60`
+            } else {
+                buttonMove.style.right = ''
+                buttonMove.style.left = '0'
+                main.style.backgroundColor = `#f9f2e9`
+                main.style.backgroundImage = `url('./mountin.png')`
+                clock.style.boxShadow = ` 0px 0px 15px rgba(255, 153, 0, 0.695)`
+                clock.style.backgroundColor = `rgba(254, 157, 0, 0.683)`
+                hour.style.backgroundColor = `#13be1991`
+                minute.style.backgroundColor = `#13be1991`
+                second.style.backgroundColor = `#ffffffe3`
+                // clock.style.animationName = 'clock'
+                // clock.style.animationDuration = '4s'
+            }
+            setTimeout(() => {
+                clock.classList.remove('ani')
+            }, 4000);
+            btn = !btn
+        })
+
+    </script>
+</body>
+
+</html>
